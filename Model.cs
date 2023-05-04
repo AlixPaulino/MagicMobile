@@ -18,14 +18,8 @@ namespace Gestor_tarefas_Eventos_Delegados {
             tarefas.Add(texto);
         }
 
-        public string ApresentarListaTarefas() {
-            string listaTarefas = "";
-
-            for (int i = 0; i < tarefas.Count; i++) {
-                listaTarefas += $"{i + 1}. {tarefas[i]}\n";
-            }
-
-            return listaTarefas;
+        public List<string> ApresentarListaTarefas() {
+            return tarefas;
         }
     }
 }
