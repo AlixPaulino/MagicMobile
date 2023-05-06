@@ -2,70 +2,52 @@ using System;
 
 namespace Gestor_tarefas_Eventos_Delegados {
     class Controller {
-
         private View view;
         private Model model;
 
-        // Eventos e delegados para comunicação 
-        public delegate void ApresentacaoTexto();
-        public event ApresentacaoTexto Apresentar;
+//inicio da View e Model num construtor	
+		public Controller()
+        {
+            view = new View();
+            model = new Model();
+		}
 
-        public delegate void DadosTarefas(string Texto);
-        public event DadosTarefas Inserir;
+        // Eventos e delegados para comunicação  
+	   public delegate void ApresentacaoTexto();
+	   public event ApresentacaoTexto Apresentar;
+        
+       public delegate void DadosTarefas(string Texto);
+	  public event DadosTarefas Inserir;
+	  
+	 public delegate void AnimaBotao();
+	  public event AnimaBotao AnimaBotaoAcionarTarefa;
 
         public void IniciarPrograma() {
 
-            // Inicialização dos componentes
-            view = new View();
-            model = new Model();
-
-           //para apresentar a mensagem de boas vinda após o clique do utilizador em IniciarPrograma()
+             //para apresentar a mensagem de boas vinda após o clique do utilizador em IniciarPrograma()
             Apresentar += view.ApresentarBoasVindas;          
-
-            // Apresenta o programa
+            // Chama o evento Apresentar para apresentar a mensagem de boas-vindas
             Apresentar();
 
-            // Inicia os dados de tarefas
-            DadosTarefas();
-            model.DadosTarefas();
-
-            // Inicia a inserção de dados de tarefas
-            string texto = NovaTarefa();
-            model.NovaTarefa();
-
-
-            //Pedir lista de tarefas
-            ListaTarefas();
-            model.ApresentarListaTarefas();
-
-            //Atualizar lista de tarefas
-            AtulizarListaTarefas();
-            view.ApresentarAtualizarListaTarefas();
-        }
-
-
-        public string DadosTarefas() {
-            string texto = Console.ReadLine();
-            return texto;
-        }
-
-        public string NovaTarefa()
-        {
-            string texto = Console.ReadLine();
-            return texto;
-        }
-
-        public string ListaTarefas()
-        {
-            string texto = Console.ReadLine();
-            return texto;
-        }
-
-        public string AtualizarListaTarefas()
-        {
-            string texto = Console.ReadLine();
-            return texto;
-        }
-    }
-
+              // Registra o método que será chamado quando o evento Inserir for acionado
+            Inserir += model.NovaTarefa;
+            // Solicita a inserção de dados de tarefas
+            Inserir("Insira os dados da tarefa nova: ");
+			
+			 // Registra o método que será chamado quando o evento AnimaBotaoAcionarTarefa for acionado
+            AnimaBotaoAcionarTarefa += view.AnimaBotaoAcionarTarefa;
+            // Adiciona a animação do botão de acionar tarefa
+            AnimaBotaoAcionarTarefa();
+			
+			// Atualiza a lista de tarefas na view
+			 view.AtualizarListaTarefas(model.ApresentarListaTarefas());
+			
+		}
+			public string DadosTarefas()
+			{
+				Console.WriteLine("Insira os dados da tarefa:");
+				string texto = Console.ReadLine();
+				return texto;
+			}
+		}
 }
