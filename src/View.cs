@@ -12,7 +12,11 @@ namespace Gestor_tarefas_Eventos_Delegados {
         public void ApresentarBoasVindas() {
             Console.WriteLine("Bem vindo ao Gestor de Tarefas!");
         }
-
+        
+         // Método para animar o botão ao acionar uma tarefa
+        public void AnimaBotaoAcionarTarefa() {
+            Console.WriteLine("Anima botão");
+        }
 
         // Para atualizar a lista de tarefas (View -> View)
         public void AtualizarListaTarefas(List<string> tarefas) // Adicione um parâmetro do tipo List<string>
