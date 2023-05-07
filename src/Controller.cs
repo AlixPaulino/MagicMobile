@@ -106,7 +106,9 @@ namespace Gestor_tarefas_Eventos_Delegados {
 			            }
 			            catch (InvalidOperationException e)
 			            {
-				            Console.WriteLine(e.Message);
+				            MensagemErro(e.Message);
+				            Console.ReadKey();
+				            LimparEcra();
 			            }
 			            
 			            break;

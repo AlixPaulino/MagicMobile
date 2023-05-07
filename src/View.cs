@@ -51,6 +51,7 @@ namespace Gestor_tarefas_Eventos_Delegados {
         public void ExibirMensagemErro(String erro)
         {
             Console.WriteLine(erro);
+            Console.WriteLine("Prima qualquer tecla para continuar.");
         }
         
         // Para encerrar o programa
