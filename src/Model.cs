@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Gestor_tarefas_Eventos_Delegados {
     class Model {
@@ -21,7 +22,11 @@ namespace Gestor_tarefas_Eventos_Delegados {
 
         // Método para retornar a lista de tarefas atual
         // Retrona uma List<string> com todas as tarefas armazenadas. 
-        public List<string> ApresentarListaTarefas() {
+        public List<string> ApresentarListaTarefas()
+        {
+            //Caso a lista de tarefas esteja vazia lançamos uma exceção 
+            if (tarefas.Count() == 0)
+                throw new InvalidOperationException("A lista de tarefas está vazia");
             return tarefas;
         }
     }

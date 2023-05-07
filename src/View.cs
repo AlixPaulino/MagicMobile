@@ -27,7 +27,32 @@ namespace Gestor_tarefas_Eventos_Delegados {
                 Console.WriteLine($"{i + 1}. {tarefas[i]}");
             }
         }
+        
+        // Para exibir o Menu
 
+        public void ExibirMenu()
+        {
+            Console.WriteLine("Escolha uma opção:");
+            Console.WriteLine("1. Adicionar tarefa");
+            Console.WriteLine("2. Visualizar tarefas");
+            Console.WriteLine("3. Sair");
+        }
+
+        public void PedirDadosTarefa()
+        {
+            Console.WriteLine("Insira os dados da nova tarefa:");
+        }
+        
+        public void ExibirMensagemDespedida()
+        {
+            Console.WriteLine("Obrigado por usar o Gestor de Tarefas!");
+        }
+        
+        public void ExibirMensagemErro(String erro)
+        {
+            Console.WriteLine(erro);
+        }
+        
         // Para encerrar o programa
         private void Encerrar()
         {
