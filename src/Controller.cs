@@ -43,11 +43,5 @@ namespace Gestor_tarefas_Eventos_Delegados {
 			 view.AtualizarListaTarefas(model.ApresentarListaTarefas());
 			
 		}
-			public string DadosTarefas()
-			{
-				Console.WriteLine("Insira os dados da tarefa:");
-				string texto = Console.ReadLine();
-				return texto;
-			}
-		}
+	}
 }
