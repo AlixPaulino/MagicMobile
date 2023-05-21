@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MagicMobile;
 
 namespace Gestor_tarefas_Eventos_Delegados {
-    class Model {
+    class Model:IGestorTarefa {
         
         // Lista onde são armazenadas as tarefas
         private List<string> tarefas;
