@@ -41,6 +41,7 @@
     <ItemGroup>
         <Compile Include="Controller.cs" />
         <Compile Include="IGestorTarefa.cs" />
+        <Compile Include="IGestorTarefaView.cs" />
         <Compile Include="Model.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />

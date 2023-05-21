@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using MagicMobile;
 
 namespace Gestor_tarefas_Eventos_Delegados {
     class Controller {
-        private View view;
-        private Model model;
+        private IGestorTarefaView view;
+        private IGestorTarefa model;
 
 	    //inicio da View e Model num construtor	
 		public Controller()
@@ -16,32 +17,17 @@ namespace Gestor_tarefas_Eventos_Delegados {
 
 		/*Eventos e delegados para comunicação entre componentes*/
 		// Fluxos controller - view
-		public delegate void ApresentacaoTexto();
-		public event ApresentacaoTexto Apresentar;
+		public delegate void ApresentarTexto(string texto);
+		public event ApresentarTexto MensagemTexto;
 
-		public delegate void ExibirMenu();
+		public delegate void ApresentarMensagensLista(List<string> lista);
 
-		public event ExibirMenu Exibir;
-
-		public delegate void PedirDadosTarefa();
-
-		public event PedirDadosTarefa PedirDados;
-
-		public delegate void ExibirMensagemSaida();
-
-		public event ExibirMensagemSaida MensagemSaida;
+		public event ApresentarMensagensLista ExibirLista;
 
 		public delegate void ExibirMensagemErro(string texto);
 
 		public event ExibirMensagemErro MensagemErro;
-	    public delegate void AnimaBotao();
-        public event AnimaBotao AnimaBotaoAcionarTarefa;
 
-        public delegate void AtualizarListaTarefas(List<string> lista);
-
-        public event AtualizarListaTarefas AtualizarLista;
-
-		
 		
 		// Fluxos controller - model
 		public delegate void DadosTarefas(string Texto);
@@ -53,20 +39,12 @@ namespace Gestor_tarefas_Eventos_Delegados {
         public void IniciarPrograma() {
 	        
 	        /** Fluxos controller - view **/
-	        // para apresentar a mensagem de boas vinda 
-	        Apresentar += view.ApresentarBoasVindas;
-	        // para apresentar ao utilizador as opções do menu
-	        Exibir += view.ExibirMenu;
-	        // para apresentar ao utilizador a mensagem a pedir os dados da tarefa
-	        PedirDados += view.PedirDadosTarefa;
-	        // Atualiza a lista de tarefas na view
-	        AtualizarLista += view.AtualizarListaTarefas;
-	        // Registra o método que será chamado quando o evento AnimaBotaoAcionarTarefa for acionado
-	        AnimaBotaoAcionarTarefa += view.AnimaBotaoAcionarTarefa;
-	        // Regista o método que será chamado para apresentar a mensagem de despedida quando o user sair
-	        MensagemSaida += view.ExibirMensagemDespedida;
-	        // Regista o método que será chamado para apresentar mensagens de erro
-	        MensagemErro += view.ExibirMensagemErro;
+	        // para apresentar a mensagens
+	        MensagemTexto += view.ExibirMensagem;
+	        // para apresentar uma lista no ecrã - menu ou lista de tarefas 
+	        ExibirLista += view.ExibirLista;
+	        // para apresentar ao utilizador a mensagem de erro 
+	        MensagemErro += view.ExibirErro;
 	        
 	        /** Fluxos controller - model **/
 	        // Registra o método que será chamado quando o evento Inserir for acionado
@@ -76,23 +54,26 @@ namespace Gestor_tarefas_Eventos_Delegados {
 	        
 
             
-	        // Chama o evento Apresentar para apresentar a mensagem de boas-vindas
-            Apresentar();
+	        // Chama o evento MensagemTexto para apresentar a mensagem de boas-vindas
+	        MensagemTexto("Bem vindo ao Gestor de Tarefas!");
             
             bool sair = false;
             while (!sair)
             {
-	            Exibir(); // Exibimos o menu
+	            List<string> opcoesMenu = new List<string>() {"Adicionar tarefa", "Visualizar tarefas", "Sair"};
+	            // Exibimos o menu
+	            MensagemTexto("Escolha uma opção:");
+	            ExibirLista(opcoesMenu);
+	            
 	            string opcao = Console.ReadLine(); //recolhemos a opção
 
 	            switch (opcao)
 	            {
 		            case "1":
 			            LimparEcra();
-			            // Adiciona a animação do botão de acionar tarefa
-                        AnimaBotaoAcionarTarefa();
 			            //Adicionar tarefa;
-			            PedirDados(); //chamamos o evento que exibe a mensagem de pedir os dados
+			            //chamamos o evento que exibe a mensagem e pedimos os dados
+			            MensagemTexto("Insira os dados da nova tarefa:"); 
 			            string dadosTarefa = Console.ReadLine(); // lemos os dados do terminal
 			            Inserir(dadosTarefa); // chamamos o evento do model que cria os dadosTarefa
 			            break;
@@ -102,7 +83,8 @@ namespace Gestor_tarefas_Eventos_Delegados {
 			            try
 			            {
 							List<string> listaTarefas = ApresentarLista(); // pedimos a lista ao model
-							AtualizarLista(listaTarefas); //passamos a lista à view
+							MensagemTexto("\nLista de Tarefas:");
+							ExibirLista(listaTarefas); //passamos a lista à view
 			            }
 			            catch (InvalidOperationException e)
 			            {
@@ -113,12 +95,12 @@ namespace Gestor_tarefas_Eventos_Delegados {
 			            
 			            break;
 		            case "3":
-			            MensagemSaida();
+			            MensagemTexto("Obrigado por usar o Gestor de Tarefas!");
 			            sair = true;
 			            break;
 		            default:
 			            LimparEcra();
-			            Console.WriteLine("Opção inválida. Por favor escolha outra opção.");
+			            MensagemTexto("Opção inválida. Por favor escolha outra opção.");
 			            break;
 	            }
 	            
