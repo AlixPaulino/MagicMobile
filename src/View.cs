@@ -1,10 +1,10 @@
-﻿using Gestor_tarefas_Eventos_Delegados;
+using Gestor_tarefas_Eventos_Delegados;
 using System;
 using System.Collections.Generic;
 using MagicMobile;
 
 namespace Gestor_tarefas_Eventos_Delegados {
-    class View:IGestorTarefaView {
+    class View:IView {
 
         public View() {
         }
